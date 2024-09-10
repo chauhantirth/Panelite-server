@@ -36,7 +36,7 @@ org_details = {
             "orgLocation": "RNGPIT, Bardoli, Gujarat, India",
             "orgCity":"Bardoli",
             "orgPlantDetails": {
-                "plantCapacity": "120 Kwh",
+                "plantCapacity": "120 kW",
                 "plantNumberOfPanels": "180",
             }
         }
