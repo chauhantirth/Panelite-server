@@ -133,3 +133,5 @@ def logout():
 # Run the app if this script is executed
 if __name__ == '__main__':
     app.run(API_HOST, API_PORT, debug=config.get('IS_DEVELOPMENT'), use_reloader = True)
+else:
+    app.run(API_HOST, API_PORT, debug=config.get('IS_DEVELOPMENT'), use_reloader = False)
