@@ -12,7 +12,7 @@ BASE_DIR = Path(os.getcwd())
 
 with open(BASE_DIR / 'config.toml', 'r') as config_file:
     config = toml.load(config_file)
-    API_PORT = config.get('API_PORT')
+    API_PORT = config.get('API_PORT') or 5000
     API_HOST = config.get('API_HOST')
     IS_DEV = config.get('IS_DEVELOPMENT')
 
