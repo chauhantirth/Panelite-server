@@ -130,8 +130,15 @@ def logout():
         # print(error)
         return jsonify({'status': 'success', 'remarkMsg': 'Invalid payload format'})
 
-# Run the app if this script is executed
-if __name__ == '__main__':
+
+def main():
     app.run(API_HOST, API_PORT, debug=config.get('IS_DEVELOPMENT'), use_reloader = True)
-else:
-    app.run(API_HOST, API_PORT, debug=config.get('IS_DEVELOPMENT'), use_reloader = False)
+
+
+def waitress():
+    from waitress import serve
+    serve(app, host=API_HOST, port=API_PORT)
+
+# Run the app if this script is executed
+if __name__ == "__main__":
+    main()
