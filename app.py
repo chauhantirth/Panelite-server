@@ -4,6 +4,7 @@ import os
 from pathlib import Path
 import db
 import base64
+import random
 
 BASE_DIR = Path(os.getcwd())
 
@@ -27,6 +28,10 @@ def getUserData(user):
             userData['plantNumberOfPanels'] = org['orgPlantDetails']['plantNumberOfPanels']
 
     return base64.b64encode(str(userData).encode()).decode()
+
+def predictGeneration(dateInfo):
+    date = int(dateInfo['timestamp'])
+    return random.randint(490, 580)
 
 app = Flask(__name__)
 
@@ -75,6 +80,34 @@ def login():
     except Exception as error:
         print(error)
         return jsonify({'status': 'failure', 'errorMsg': 'Invalid payload format'})
+    
+
+@app.route('/api/predict', methods=['POST'])
+def predict():
+    try:
+        json_data = request.get_json()
+        sessionToken = json_data['data']['sessionToken']
+        dateInfo = json_data['data']['dateInfo']
+
+        for user in db.user_details['users']:
+            if sessionToken == user['userAuthDetails']['sessionToken']:
+                try:
+                    if dateInfo['timestamp'] == '':
+                        return jsonify({'status': 'failure', 'errorMsg': 'Invalid Date Recieved'})
+                except Exception as e:
+                    return jsonify({'status': 'failure', 'errorMsg': 'Date Information is missing'})
+                
+                return jsonify({'status': 'success', 'container': {
+                    'predictedVal': str(predictGeneration(dateInfo)),
+                    'unit': 'kWh'
+                }})
+
+        return jsonify({'status': 'failure', 'errorMsg': 'Unauthenticated Token, Please Login and Try Again.'})
+
+    except Exception as error:
+        print(error)
+        return jsonify({'status': 'failure', 'errorMsg': 'Invalid payload format'})
+
 
 # Run the app if this script is executed
 if __name__ == '__main__':
