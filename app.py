@@ -48,6 +48,33 @@ def refresh():
     except Exception as error:
         print(error)
         return jsonify({'status': 'failure', 'errorMsg': 'Invalid payload format'})
+    
+
+@app.route('/api/login', methods=['POST'])
+def login():
+    try:
+        json_data = request.get_json()
+        userEmail = json_data['data']['userEmail']
+        userPassword = json_data['data']['userPassword']
+
+        if userEmail == '' or userPassword == '':
+            return jsonify({'status': 'failure', 'errorMsg': 'Invalid Email or Password. Please Try again.'})
+
+        for user in db.user_details['users']:
+            if userEmail == user['userEmail']:
+                if userPassword == user['userPassword']:
+                    return jsonify({'status': 'success', 'container': {
+                        'sessionToken': user['userAuthDetails']['sessionToken'],
+                        'userData': getUserData(user)
+                    }})
+                else:
+                    return jsonify({'status': 'failure', 'errorMsg': 'Invalid Email or Password. Please Try again.'})
+
+        return jsonify({'status': 'failure', 'errorMsg': 'Email not registered, Please Contact Admin.'})
+
+    except Exception as error:
+        print(error)
+        return jsonify({'status': 'failure', 'errorMsg': 'Invalid payload format'})
 
 # Run the app if this script is executed
 if __name__ == '__main__':
