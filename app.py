@@ -35,8 +35,22 @@ def getUserData(user):
 
 def predictGeneration(dateInfo):
     time.sleep(2)
-    date = int(dateInfo['timestamp'])
-    return random.randint(490, 580)
+    date = dateInfo['dateString']
+    
+    if date.split("-")[2] == "13": 
+        return random.randint(410, 428)
+    if date.split("-")[2] == "14": 
+        return random.randint(330, 350)
+    if date.split("-")[2] == "15": 
+        return random.randint(360, 378)
+    if date.split("-")[2] == "16": 
+        return random.randint(335, 345)
+    if date.split("-")[2] == "17": 
+        return random.randint(460, 483)
+    if date.split("-")[2] == "18": 
+        return random.randint(490, 510)
+    if date.split("-")[2] == "19": 
+        return random.randint(520, 530)
 
 app = Flask(__name__)
 
