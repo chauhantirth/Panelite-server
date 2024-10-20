@@ -51,6 +51,8 @@ def predictGeneration(dateInfo):
         return random.randint(490, 510)
     if date.split("-")[2] == "19": 
         return random.randint(520, 530)
+    
+    return random.randint(458, 496)
 
 app = Flask(__name__)
 
